@@ -1,0 +1,30 @@
+def min_cut_insert(shuffled, original):
+    n = len(shuffled)
+
+    # Map each instruction to its index in the original list
+    pos = {instr: i for i, instr in enumerate(original)}
+    perm = [pos[instr] for instr in shuffled]
+
+    # Find longest contiguous increasing subsequence in perm
+    longest_inc = 1
+    curr = 1
+    for i in range(1, n):
+        if perm[i] == perm[i - 1] + 1:
+            curr += 1
+            longest_inc = max(longest_inc, curr)
+        else:
+            curr = 1
+
+    # Min operations = total - longest contiguous correct block
+    return n - longest_inc
+
+
+# ---------------- MAIN ----------------
+if __name__ == "__main__":
+    n = int(input().strip())
+    _ = input().strip()  # "shuffled"
+    shuffled = [input().rstrip() for _ in range(n)]
+    _ = input().strip()  # "original"
+    original = [input().rstrip() for _ in range(n)]
+
+    print(min_cut_insert(shuffled, original))
